@@ -46,7 +46,7 @@ class rulete():
 
         return resoult, color
 
-    def endBet(self, valance, amount, rslt, winBets, formatsError):
+    def endBet(self, valance, amount, rslt, winBets, allBets, formatsError):
         print(f'Salió el {rslt[0]}, {rslt[1]}')
         if valance > 0:
             if len(winBets) > 1:
@@ -64,12 +64,15 @@ class rulete():
         repeat = input("¿Volver a apostar? (y/N)\n    >> ")
         if repeat.upper() == "Y":
             # Falta el código para que repita la misma apuesta
-            # repeatBet = input("¿Quiere repetir la misma apuesta? (y/N)?\n    >> ")
-            self.bet()
+            repeatBet = input("¿Quiere repetir la misma apuesta? (y/N)?\n    >> ")
+            if repeatBet.upper() == "Y":
+                self.bet(allBets)
+            else:
+                self.bet()
         else:
             exit()
 
-    def bet(self):
+    def bet(self, returnBets=None):
         awards = {
             'straightUp':35,
             '0':36,
@@ -82,16 +85,19 @@ class rulete():
             'docen':2,
             'color':2
         }
-        needHelp = input("¿Necesitas el manual? (y/N)\n   >> ")
-        if needHelp.upper() == "Y":
-            print(msg.helper())
-        bets = []
-        while True:
-            bet = input("Ponga su apuesta\n    >> ")
-            amount = input("¿Cuanto quiere apostar en esta?\n    >> ")
-            bets.append([bet, amount])
-            if input("Añadir más? (y/N)").upper() != "Y":
-                break
+        if returnBets:
+            bets = returnBets
+        else:
+            needHelp = input("¿Necesitas el manual? (y/N)\n   >> ")
+            if needHelp.upper() == "Y":
+                print(msg.helper())
+            bets = []
+            while True:
+                bet = input("Ponga su apuesta\n    >> ")
+                amount = input("¿Cuanto quiere apostar en esta?\n    >> ")
+                bets.append([bet, amount])
+                if input("Añadir más? (y/N)").upper() != "Y":
+                    break
         resoult = self.getNumber()
         valance = 0.0
         print(f"Ha salido el {resoult[0]}, {resoult[1]}")
@@ -109,7 +115,7 @@ class rulete():
                 valance += int(bet[1])*awards[name]
                 winBets.append(name)
         # Falta el control de errores
-        self.endBet(valance, amount, resoult, winBets, formatsError)
+        self.endBet(valance, amount, resoult, winBets, bets, formatsError)
 
 if __name__ == '__main__':
     rulete()
