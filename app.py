@@ -10,40 +10,37 @@ class rulete():
     def __init__(self):
         print("Bienvenido a la roleta hecha por Miguel M.")
         self.getInitialNumbers()
-        self.getAwards()
         self.bet()
 
     def getInitialNumbers(self):
         allNumbers = np.arange(1, 35)
 
-    def colorDictFn():
-        prInit=0
-        prEnd=36
-        exceptions={
-            0:'verde',
-            11:'negro',
-            19:'rojo',
-            29:'negro',
-            36:'rojo'
+    def colorDictFn(self):
+        pr_init = 0
+        pr_end = 36
+        exceptions = {
+            0: 'verde',
+            11: 'negro',
+            19: 'rojo',
+            29: 'negro',
+            36: 'rojo'
         }
-        colorDict = {}
+
+        color_dict = {}
         color = "rojo"  # Initial color
 
-        for number in range(prInit, prEnd + 1):
+        for number in range(pr_init, pr_end + 1):
             if number in exceptions:
-                color = exceptions[numero]  # Do exceptions
+                color = exceptions[number]  # Apply exceptions
             else:
-                if number % 3 == 1:
-                    color = "rojo"
-                else:
-                    color = "negro"
+                color = "rojo" if number % 3 == 1 else "negro"  # One-line color assignment
 
-        colorDict[number] = color
+            color_dict[number] = color
 
-        return colorDict
+        return color_dict
 
-    def getNumber():
-        colorDict = colorDictFn()
+    def getNumber(self):
+        colorDict = self.colorDictFn()
         resoult = random.randint(0, 36)
         color = colorDict[resoult]
 
@@ -66,6 +63,8 @@ class rulete():
             print(f'Has perdido lo apostado, {amount}.')
         repeat = input("¿Volver a apostar? (y/N)\n    >> ")
         if repeat.upper() == "Y":
+            # Falta el código para que repita la misma apuesta
+            # repeatBet = input("¿Quiere repetir la misma apuesta? (y/N)?\n    >> ")
             self.bet()
         else:
             exit()
@@ -84,18 +83,18 @@ class rulete():
             'color':2
         }
         needHelp = input("¿Necesitas el manual? (y/N)\n   >> ")
-        if needHelp.upper() is "Y":
-            print(msg.helper)
+        if needHelp.upper() == "Y":
+            print(msg.helper())
         bets = []
         while True:
             bet = input("Ponga su apuesta\n    >> ")
-            amonut = input("¿Cuanto quiere apostar en esta?\n    >> ")
-            bets.append([bet, amonut])
-            if input("Añadir más? (y/N)").upper() is not "Y":
+            amount = input("¿Cuanto quiere apostar en esta?\n    >> ")
+            bets.append([bet, amount])
+            if input("Añadir más? (y/N)").upper() != "Y":
                 break
-        resoult = getNumber()
+        resoult = self.getNumber()
         valance = 0.0
-        print(f"Ha salido el {resoult[0]+", "+{resoult[1]}}")
+        print(f"Ha salido el {resoult[0]}, {resoult[1]}")
         formatedBets = []
         winBets = []
         formatsError = []
@@ -112,5 +111,5 @@ class rulete():
         # Falta el control de errores
         self.endBet(valance, amount, resoult, winBets, formatsError)
 
-    def testResult(self):
-        pass
+if __name__ == '__main__':
+    rulete()
